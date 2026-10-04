@@ -94,6 +94,21 @@ async def global_exception_handler(request: Request, exc: Exception):
         headers={"Access-Control-Allow-Origin": "*"}
     )
 
+@app.get("/")
+def root():
+    return {
+        "name": "Bhasha Setu Offline Translation Engine",
+        "status": "online",
+        "version": "1.0.0",
+        "docs_url": "/docs",
+        "health_check": "/api/health"
+    }
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    return JSONResponse(status_code=204, content=None)
+
+
 # Neural ASR Engine Router (Santali IndicConformer + Faster-Whisper)
 try:
     from server.api.asr_routes import router as asr_api_router
